@@ -1,8 +1,10 @@
 # Copyright (c) 2024 pyniu entertainment - No Rights Reserved. 
 from ursina import *
+from ursina.prefabs.platformer_controller_2d import PlatformerController2d
 
 app = Ursina()
-
+# TODO: independent window size
+window.borderless=False
 window.color=color.gray
 # window.fullscreen=True
 camera.orthographic=True
@@ -23,26 +25,26 @@ snake = Entity(model='cube', scale=0.5, collider='box', color=color.red, colliso
 # point = Entity(model='sphere', color=color.red, scale=0.3)
 
 
-
 def update():
     snake.position += snake.up * time.dt * 2
     snake.rotation_cooldown -= time.dt
 
-    if held_keys['w'] and snake.rotation_cooldown <= 0:
-        snake.look_at_xy(ceiling) 
-        snake.rotation_cooldown = .25
-
-    if held_keys['s'] and snake.rotation_cooldown <= 0:
-        snake.look_at_xy(floor) 
-        snake.rotation_cooldown = .25
-
     if held_keys['a'] and snake.rotation_cooldown <= 0:
-        snake.rotation_z -= 90 
-        snake.rotation_cooldown = .25
+        snake.rotation_z=-90
+        snake.rotation_cooldown = .25 
 
-    if held_keys['d'] and snake.rotation_cooldown <= 0:
-        snake.rotation_z -= 90 
-        snake.rotation_cooldown = .25
+    elif held_keys['d'] and snake.rotation_cooldown <= 0:
+        snake.rotation_z=90
+        snake.rotation_cooldown = .25 
 
+    elif held_keys['w'] and snake.rotation_cooldown <= 0:
+        snake.rotation_z=0
+        snake.rotation_cooldown = .25 
+
+    elif held_keys['s'] and snake.rotation_cooldown <= 0:
+        snake.rotation_z=180
+        snake.rotation_cooldown = .25 
+
+    
 
 app.run()
